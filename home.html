@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	<script type="text/javascript">
+		$(function() {
+			$("#dob").datepicker({ 
+				class : 'll-skin-siena',
+				dateFormat: 'dd/mm/yy',
+				changeYear: true,
+				yearRange : '1500:yy',
+				
+			}).datepicker("setDate", "0");
+		});
+	</script>
+	<script type="text/javascript">
+		function submit(){
+			if($("#name").val()=='') alert("enter your name");
+			if($("#dob").val()=='') alert("enter your DOB");
+			else{
+				var nam = $("#name").val();
+				var date = $("#dob").datepicker("getDate");
+				var year =  date.getFullYear();
+				var month = date.getMonth();
+				var day = date.getDate();
+				var noww = new Date();
+				var then = new Date(year,month,day);
+				var result = Math.floor((noww-then)/(86400000));
+				if (result>0){
+					var json_obj = {n:nam, bd:then,tstamp:noww,result:result};
+					$.post('resp',json_obj);
+					$("#result").css('visibility', 'visible');
+
+					$("#res").val(result);
+				}
+				else
+					alert("Gatcha! that's a wrong date of birth! :D ");
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		function logs(){
+			$.post('logs','',function( data ){
+					console.log(data);
+					$("#log").css('visibility', 'visible');
+					$("#log_text").val(data);
+				});
+		}
+	</script>
+	<title>Alive Time</title></head>
+<body>
+	<center><h1>Alive Time Calculator App</h1>
+	<h4>Enter your name and pick your birthday</h4>
+	<input type="text" class="inputs" id="name" placeholder="Enter your full name"><p>
+	<input type="text" class="inputs" id="dob"><br>
+	<input type="submit" class="btn1" value="Submit" onClick="submit()">
+	<input type="submit" class="btn1" value="Show logs" onClick="logs()">
+	<div id="result" style="visibility:hidden">
+		<font size="5">
+			<p>You have been alive for <output id="res"></output> days!</p>
+	</font>
+	</div>
+	<div id="log" style="visibility:hidden">
+		<p>
+			<textarea cols="100" rows="1000" id="log_text"> </textarea>
+		</p>
+	</div>
+</center>
+	<style>
+	html,
+	body {
+		font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		line-height: 1.4em;
+		background: #eaeaea url('bg.png');
+		color: #4d4d4d;
+		width: 550px;
+		margin: 0 auto;
+		-webkit-font-smoothing: antialiased;
+		-moz-font-smoothing: antialiased;
+		-ms-font-smoothing: antialiased;
+		-o-font-smoothing: antialiased;
+		font-smoothing: antialiased;
+	    padding: 0;
+
+	}
+
+	/* input area*/
+	.inputs {
+	    -moz-border-radius: 5px;
+	    -webkit-border-radius: 5px;
+	    background-color: #EAEAEA;
+	    background: -moz-linear-gradient(top, #FFF, #EAEAEA);
+	    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #FFF), color-stop(1.0, #EAEAEA));
+	    border: 1px solid #CACACA;
+	    color: #444;
+	    font-size: 1.4em;
+	    margin: 0 0 25px;
+	    padding: 5px 9px;
+	    width: 260px;
+	}
+
+	.inputs:focus {
+	    background: #FFF;
+	    -webkit-box-shadow: 0 0 25px #CCC;
+	    -moz-box-shadow: 0 0 25px #ccc;
+	    box-shadow: 0 0 25px #CCC;
+	    -webkit-transform: scale(1.05);
+	    -moz-transform: scale(1.05);
+	    transform: scale(1.05);
+	}
+
+	/* Button Style */
+	.btn1{
+	    -webkit-border-radius:50px;
+	    -moz-border-radius:50px;
+	    border-radius:50px;
+	    padding:10px 30px 10px 30px;
+	    position:relative;
+	    float:center;
+	    display:block;
+	    overflow:hidden;
+	    margin:30px;
+	    background:#fff;
+	    background:-webkit-gradient(linear,left top,left bottom,color-stop(rgba(255,255,255,1),0),color-stop(rgba(246,246,246,1),0.74),color-stop(rgba(237,237,237,1),1));
+	    background:-webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 74%, rgba(237,237,237,1) 100%);
+	    background:-moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 74%, rgba(237,237,237,1) 100%);
+	    background:-o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 74%, rgba(237,237,237,1) 100%);
+	    background:linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 74%, rgba(237,237,237,1) 100%);
+	    filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+	    -webkit-box-shadow:0px 0px 7px rgba(0,0,0,0.2), 0px 0px 0px 1px rgba(188,188,188,0.1);
+	    -moz-box-shadow:0px 0px 7px rgba(0,0,0,0.2), 0px 0px 0px 1px rgba(188,188,188,0.1);
+	    box-shadow:0px 0px 7px rgba(0,0,0,0.2), 0px 0px 0px 1px rgba(188,188,188,0.1);
+	    -webkit-transition:box-shadow 0.3s ease-in-out;
+	    -moz-transition:box-shadow 0.3s ease-in-out;
+	    -o-transition:box-shadow 0.3s ease-in-out;
+	    transition:box-shadow 0.3s ease-in-out;
+	    font-size:20px;
+	    color:#d7565b;
+	    line-height:16px;
+	    font-weight:bold;
+	    font-family:"Myriad Pro", "Trebuchet MS", sans-serif;
+	    text-shadow:1px 1px 2px rgba(255,255,255,0.5);
+	    display:block;
+	}
+
+	h1{
+	    color:#d7565b;
+	    margin:50px;
+	}
+	h4{
+	    font-size: 16px;
+	}
+	</style>
+
+</body></html>
+
+
+

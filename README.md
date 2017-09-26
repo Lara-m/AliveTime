@@ -1,4 +1,4 @@
-#<center>Alive Time</center>
+#Alive Time
 
 ##1 Introduction
 "Alive Time" is a minimalistic single page app. 
